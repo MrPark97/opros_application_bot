@@ -6,6 +6,7 @@
 Basic example for a bot that uses inline keyboards.
 """
 import logging
+import os
 
 from telegram import KeyboardButton, ReplyKeyboardMarkup, Update, ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, ConversationHandler, CallbackContext, MessageHandler, Filters
@@ -475,8 +476,13 @@ def cancel(update: Update, _: CallbackContext) -> int:
 
 
 def main() -> None:
+    # Port is given by Heroku
+    PORT = os.environ.get('PORT')
+    TOKEN = "1708564964:AAHCRsm_YKwlZ8aUExXp-pTqkSm7fA73ymw"
+    NAME = "opros_application_bot"
+
     # Create the Updater and pass it your bot's token.
-    updater = Updater("1708564964:AAHCRsm_YKwlZ8aUExXp-pTqkSm7fA73ymw")
+    updater = Updater(TOKEN)
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
@@ -500,7 +506,11 @@ def main() -> None:
     updater.dispatcher.add_handler(CommandHandler('help', help_command))
 
     # Start the Bot
-    updater.start_polling()
+    # Start the webhook
+    updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=TOKEN)
+    updater.bot.setWebhook("https://{}.herokuapp.com/{}".format(NAME, TOKEN))
 
     # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT
