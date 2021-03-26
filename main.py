@@ -608,8 +608,40 @@ def statistics(update: Update, _: CallbackContext) -> None:
             'Nice try)', reply_markup=ReplyKeyboardRemove()
         )
     else:
+        result_string = "<b>Выбран язык:</b> \n"
+        result_string += "Русский: "+str(language.get_language_by_type(RU)[0]) + "\n"
+        result_string += "Узбекский: "+str(language.get_language_by_type(UZ)[0]) + "\n\n\n"
+
+        all_questions = questions.get_all_questions()
+        for question in all_questions:
+            result_string += ("<b>"+question[1]+"</b>" + "\n")
+
+            all_answers = answers.get_answers_by_question(question[0])
+            for answer in all_answers:
+                result_string += (answer[1]+": " + str(results.get_result_by_answer(answer[0])[0]) + "\n")
+
+            result_string += "\n\n"
+
         update.message.reply_text(
-            'You are admin. Statistics will be prepared sooner', reply_markup=ReplyKeyboardRemove()
+            result_string, reply_markup=ReplyKeyboardRemove(), parse_mode='HTML'
+        )
+
+
+def contacts(update: Update, _: CallbackContext) -> None:
+    user = update.message.from_user
+    if user.id not in ADMIN_LIST:
+        update.message.reply_text(
+            'Nice try)', reply_markup=ReplyKeyboardRemove()
+        )
+    else:
+        result_string = "<b>Контакты:</b>\n\n"
+
+        all_contacts = phone_numbers.get_all_contacts()
+        for contact in all_contacts:
+            result_string += (contact[2] + "\n")
+
+        update.message.reply_text(
+            result_string, reply_markup=ReplyKeyboardRemove(), parse_mode='HTML'
         )
 
 
@@ -624,6 +656,7 @@ def main() -> None:
 
     updater.dispatcher.add_handler(CommandHandler('help', help_command))
     updater.dispatcher.add_handler(CommandHandler('stat', statistics))
+    updater.dispatcher.add_handler(CommandHandler('contacts', contacts))
     updater.dispatcher.add_handler(CommandHandler('cancel', cancel))
 
     conv_handler = ConversationHandler(

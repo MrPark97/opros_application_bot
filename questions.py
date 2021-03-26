@@ -17,7 +17,7 @@ def get_all_questions():
             conn = psycopg2.connect(**params)
         cur = conn.cursor()
 
-        query = "SELECT * from questions"
+        query = "SELECT * from questions ORDER BY question_id"
         cur.execute(query)
 
         rows = cur.fetchall()
