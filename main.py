@@ -477,7 +477,7 @@ def cancel(update: Update, _: CallbackContext) -> int:
 
 def main() -> None:
     # Port is given by Heroku
-    PORT = os.environ.get('PORT')
+    PORT = int(os.environ.get('PORT', '8443'))
     TOKEN = "1708564964:AAHCRsm_YKwlZ8aUExXp-pTqkSm7fA73ymw"
     NAME = "opros_application_bot"
 
@@ -508,9 +508,9 @@ def main() -> None:
     # Start the Bot
     # Start the webhook
     updater.start_webhook(listen="0.0.0.0",
-                          port=int(PORT),
-                          url_path=TOKEN)
-    updater.bot.setWebhook("https://{}.herokuapp.com/{}".format(NAME, TOKEN))
+                          port=PORT,
+                          url_path=TOKEN,
+                          webhook_url="https://<opros-application-bot>.herokuapp.com/" + TOKEN)
 
     # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT
