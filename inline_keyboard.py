@@ -419,11 +419,16 @@ def get_phone_number(update: Update, _: CallbackContext) -> int:
     cur_answers = answers.get_answers_by_question(8)
 
     if update.message.text == cur_answers[1][RU] or update.message.text == cur_answers[1][UZ]:
+        question_text = ""
+        if cur_language == RU:
+            question_text = FINISH_MESSAGE_RU
+        elif cur_language == UZ:
+            question_text = FINISH_MESSAGE_UZ
         update.message.reply_text(
-            "",
-            reply_markup=ReplyKeyboardRemove(),
+            question_text, reply_markup=ReplyKeyboardRemove()
         )
-        return PHONE_NUMBER
+
+        return ConversationHandler.END
 
     if cur_language == RU:
         keyboard = [
