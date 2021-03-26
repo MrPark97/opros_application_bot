@@ -13,6 +13,8 @@ from telegram.ext import Updater, CommandHandler, ConversationHandler, CallbackC
 import answers
 import language
 import questions
+import results
+import phone_numbers
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -47,6 +49,8 @@ LANGUAGE = 102
 PHONE_NUMBER = 103
 
 FLAG_OFFSET = 127462 - ord('A')
+
+ADMIN_LIST = [199861356]
 
 
 def flag(code):
@@ -89,6 +93,7 @@ def questionnaire_1(update: Update, _: CallbackContext) -> int:
     user = update.message.from_user
     question = questions.get_question_by_id(1)
     cur_answers = answers.get_answers_by_question(1)
+
     if update.message.text == "Русский "+flag('ru'):
         keyboard = [
             [
@@ -152,6 +157,12 @@ def questionnaire_2(update: Update, _: CallbackContext) -> int:
     cur_answers = answers.get_answers_by_question(question_id)
     cur_language = language.get_language_by_user(user.id)[0]
 
+    try:
+        answer_id = answers.find_answer_id(question_id - 1, update.message.text)[0]
+        results.insert_result(user.id, answer_id)
+    except:
+        pass
+
     if cur_language == RU:
         keyboard = [
             [
@@ -199,6 +210,12 @@ def questionnaire_3(update: Update, _: CallbackContext) -> int:
     cur_answers = answers.get_answers_by_question(question_id)
     cur_language = language.get_language_by_user(user.id)[0]
 
+    try:
+        answer_id = answers.find_answer_id(question_id - 1, update.message.text)[0]
+        results.insert_result(user.id, answer_id)
+    except:
+        pass
+
     if cur_language == RU:
         keyboard = [
             [
@@ -239,6 +256,12 @@ def questionnaire_4(update: Update, _: CallbackContext) -> int:
     question = questions.get_question_by_id(question_id)
     cur_answers = answers.get_answers_by_question(question_id)
     cur_language = language.get_language_by_user(user.id)[0]
+
+    try:
+        answer_id = answers.find_answer_id(question_id - 1, update.message.text)[0]
+        results.insert_result(user.id, answer_id)
+    except:
+        pass
 
     if cur_language == RU:
         keyboard = [
@@ -281,6 +304,12 @@ def questionnaire_5(update: Update, _: CallbackContext) -> int:
     cur_answers = answers.get_answers_by_question(question_id)
     cur_language = language.get_language_by_user(user.id)[0]
 
+    try:
+        answer_id = answers.find_answer_id(question_id - 1, update.message.text)[0]
+        results.insert_result(user.id, answer_id)
+    except:
+        pass
+
     if cur_language == RU:
         keyboard = [
             [
@@ -322,6 +351,12 @@ def questionnaire_6(update: Update, _: CallbackContext) -> int:
     cur_answers = answers.get_answers_by_question(question_id)
     cur_language = language.get_language_by_user(user.id)[0]
 
+    try:
+        answer_id = answers.find_answer_id(question_id - 1, update.message.text)[0]
+        results.insert_result(user.id, answer_id)
+    except:
+        pass
+
     if cur_language == RU:
         keyboard = [
             [
@@ -362,6 +397,12 @@ def questionnaire_7(update: Update, _: CallbackContext) -> int:
     question = questions.get_question_by_id(question_id)
     cur_answers = answers.get_answers_by_question(question_id)
     cur_language = language.get_language_by_user(user.id)[0]
+
+    try:
+        answer_id = answers.find_answer_id(question_id - 1, update.message.text)[0]
+        results.insert_result(user.id, answer_id)
+    except:
+        pass
 
     if cur_language == RU:
         keyboard = [
@@ -428,6 +469,12 @@ def questionnaire_8(update: Update, _: CallbackContext) -> int:
     cur_answers = answers.get_answers_by_question(question_id)
     cur_language = language.get_language_by_user(user.id)[0]
 
+    try:
+        answer_id = answers.find_answer_id(question_id - 1, update.message.text)[0]
+        results.insert_result(user.id, answer_id)
+    except:
+        pass
+
     if cur_language == RU:
         keyboard = [
             [
@@ -465,8 +512,13 @@ def get_phone_number(update: Update, _: CallbackContext) -> int:
     question_text = ""
     user = update.message.from_user
     cur_language = language.get_language_by_user(user.id)[0]
-
     cur_answers = answers.get_answers_by_question(8)
+
+    try:
+        answer_id = answers.find_answer_id(8, update.message.text)[0]
+        results.insert_result(user.id, answer_id)
+    except:
+        pass
 
     if update.message.text == cur_answers[1][RU] or update.message.text == cur_answers[1][UZ]:
         question_text = ""
@@ -517,6 +569,12 @@ def finish(update: Update, _: CallbackContext) -> int:
     user = update.message.from_user
     cur_language = language.get_language_by_user(user.id)[0]
     question_text = ""
+
+    if update.message.contact is not None:
+        phone_numbers.insert_phone_number(user.id, update.message.contact.phone_number)
+    elif update.message.text is not None:
+        phone_numbers.insert_phone_number(user.id, update.message.text)
+
     if cur_language == RU:
         question_text = FINISH_MESSAGE_RU
     elif cur_language == UZ:
@@ -542,9 +600,25 @@ def cancel(update: Update, _: CallbackContext) -> int:
     return ConversationHandler.END
 
 
+def statistics(update: Update, _: CallbackContext) -> None:
+    user = update.message.from_user
+    if user.id not in ADMIN_LIST:
+        update.message.reply_text(
+            'Nice try)', reply_markup=ReplyKeyboardRemove()
+        )
+    else:
+        update.message.reply_text(
+            'You are admin. Statistics will be prepared sooner', reply_markup=ReplyKeyboardRemove()
+        )
+
+
 def main() -> None:
     # Create the Updater and pass it your bot's token.
-    updater = Updater("1708564964:AAHCRsm_YKwlZ8aUExXp-pTqkSm7fA73ymw")
+    updater = Updater("1789652499:AAE7dnjjxdRC_CRfeVUao8j7LTMC0F41jX8")
+
+    updater.dispatcher.add_handler(CommandHandler('help', help_command))
+    updater.dispatcher.add_handler(CommandHandler('stat', statistics))
+    updater.dispatcher.add_handler(CommandHandler('cancel', cancel))
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
@@ -565,7 +639,6 @@ def main() -> None:
     )
 
     updater.dispatcher.add_handler(conv_handler)
-    updater.dispatcher.add_handler(CommandHandler('help', help_command))
 
     # Start the Bot
     updater.start_polling()
