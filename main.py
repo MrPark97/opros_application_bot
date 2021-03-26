@@ -510,7 +510,7 @@ def main() -> None:
     updater.start_webhook(listen="0.0.0.0",
                           port=PORT,
                           url_path=TOKEN,
-                          webhook_url="https://<opros-application-bot>.herokuapp.com/" + TOKEN)
+                          webhook_url="https://opros-application-bot.herokuapp.com/" + TOKEN)
 
     # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT
