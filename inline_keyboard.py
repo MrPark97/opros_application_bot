@@ -71,7 +71,9 @@ def start(update: Update, _: CallbackContext) -> int:
 def select_language(update: Update, _: CallbackContext) -> int:
     keyboard = [
         [
-            KeyboardButton("Русский "+flag('ru')),
+            KeyboardButton("Русский "+flag('ru'))
+        ],
+        [
             KeyboardButton("O`zbekcha "+flag('uz'))
         ],
     ]
@@ -90,11 +92,15 @@ def questionnaire_1(update: Update, _: CallbackContext) -> int:
     if update.message.text == "Русский "+flag('ru'):
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][1]),
+                KeyboardButton(cur_answers[0][1])
+            ],
+            [
                 KeyboardButton(cur_answers[1][1])
             ],
             [
-                KeyboardButton(cur_answers[2][1]),
+                KeyboardButton(cur_answers[2][1])
+            ],
+            [
                 KeyboardButton(cur_answers[3][1])
             ],
         ]
@@ -112,11 +118,15 @@ def questionnaire_1(update: Update, _: CallbackContext) -> int:
     elif update.message.text == "O`zbekcha "+flag('uz'):
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][2]),
+                KeyboardButton(cur_answers[0][2])
+            ],
+            [
                 KeyboardButton(cur_answers[1][2])
             ],
             [
-                KeyboardButton(cur_answers[2][2]),
+                KeyboardButton(cur_answers[2][2])
+            ],
+            [
                 KeyboardButton(cur_answers[3][2])
             ],
         ]
@@ -145,8 +155,12 @@ def questionnaire_2(update: Update, _: CallbackContext) -> int:
     if cur_language == RU:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][RU]),
-                KeyboardButton(cur_answers[1][RU]),
+                KeyboardButton(cur_answers[0][RU])
+            ],
+            [
+                KeyboardButton(cur_answers[1][RU])
+            ],
+            [
                 KeyboardButton(cur_answers[2][RU])
             ],
         ]
@@ -156,8 +170,12 @@ def questionnaire_2(update: Update, _: CallbackContext) -> int:
     elif cur_language == UZ:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][UZ]),
-                KeyboardButton(cur_answers[1][UZ]),
+                KeyboardButton(cur_answers[0][UZ])
+            ],
+            [
+                KeyboardButton(cur_answers[1][UZ])
+            ],
+            [
                 KeyboardButton(cur_answers[2][UZ])
             ],
         ]
@@ -184,7 +202,9 @@ def questionnaire_3(update: Update, _: CallbackContext) -> int:
     if cur_language == RU:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][RU]),
+                KeyboardButton(cur_answers[0][RU])
+            ],
+            [
                 KeyboardButton(cur_answers[1][RU])
             ],
         ]
@@ -194,7 +214,9 @@ def questionnaire_3(update: Update, _: CallbackContext) -> int:
     elif cur_language == UZ:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][UZ]),
+                KeyboardButton(cur_answers[0][UZ])
+            ],
+            [
                 KeyboardButton(cur_answers[1][UZ])
             ],
         ]
@@ -221,7 +243,9 @@ def questionnaire_4(update: Update, _: CallbackContext) -> int:
     if cur_language == RU:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][RU]),
+                KeyboardButton(cur_answers[0][RU])
+            ],
+            [
                 KeyboardButton(cur_answers[1][RU])
             ],
         ]
@@ -231,7 +255,9 @@ def questionnaire_4(update: Update, _: CallbackContext) -> int:
     elif cur_language == UZ:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][UZ]),
+                KeyboardButton(cur_answers[0][UZ])
+            ],
+            [
                 KeyboardButton(cur_answers[1][UZ])
             ],
         ]
@@ -258,7 +284,9 @@ def questionnaire_5(update: Update, _: CallbackContext) -> int:
     if cur_language == RU:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][RU]),
+                KeyboardButton(cur_answers[0][RU])
+            ],
+            [
                 KeyboardButton(cur_answers[1][RU])
             ],
         ]
@@ -268,7 +296,9 @@ def questionnaire_5(update: Update, _: CallbackContext) -> int:
     elif cur_language == UZ:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][UZ]),
+                KeyboardButton(cur_answers[0][UZ])
+            ],
+            [
                 KeyboardButton(cur_answers[1][UZ])
             ],
         ]
@@ -295,7 +325,9 @@ def questionnaire_6(update: Update, _: CallbackContext) -> int:
     if cur_language == RU:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][RU]),
+                KeyboardButton(cur_answers[0][RU])
+            ],
+            [
                 KeyboardButton(cur_answers[1][RU])
             ],
         ]
@@ -305,7 +337,9 @@ def questionnaire_6(update: Update, _: CallbackContext) -> int:
     elif cur_language == UZ:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][UZ]),
+                KeyboardButton(cur_answers[0][UZ])
+            ],
+            [
                 KeyboardButton(cur_answers[1][UZ])
             ],
         ]
@@ -332,15 +366,21 @@ def questionnaire_7(update: Update, _: CallbackContext) -> int:
     if cur_language == RU:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][RU]),
+                KeyboardButton(cur_answers[0][RU])
+            ],
+            [
                 KeyboardButton(cur_answers[1][RU])
             ],
             [
-                KeyboardButton(cur_answers[2][RU]),
+                KeyboardButton(cur_answers[2][RU])
+            ],
+            [
                 KeyboardButton(cur_answers[3][RU])
             ],
             [
-                KeyboardButton(cur_answers[4][RU]),
+                KeyboardButton(cur_answers[4][RU])
+            ],
+            [
                 KeyboardButton(cur_answers[5][RU])
             ],
         ]
@@ -350,15 +390,21 @@ def questionnaire_7(update: Update, _: CallbackContext) -> int:
     elif cur_language == UZ:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][UZ]),
+                KeyboardButton(cur_answers[0][UZ])
+            ],
+            [
                 KeyboardButton(cur_answers[1][UZ])
             ],
             [
-                KeyboardButton(cur_answers[2][UZ]),
+                KeyboardButton(cur_answers[2][UZ])
+            ],
+            [
                 KeyboardButton(cur_answers[3][UZ])
             ],
             [
-                KeyboardButton(cur_answers[4][UZ]),
+                KeyboardButton(cur_answers[4][UZ])
+            ],
+            [
                 KeyboardButton(cur_answers[5][UZ])
             ],
         ]
@@ -385,7 +431,9 @@ def questionnaire_8(update: Update, _: CallbackContext) -> int:
     if cur_language == RU:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][RU]),
+                KeyboardButton(cur_answers[0][RU])
+            ],
+            [
                 KeyboardButton(cur_answers[1][RU])
             ],
         ]
@@ -395,7 +443,9 @@ def questionnaire_8(update: Update, _: CallbackContext) -> int:
     elif cur_language == UZ:
         keyboard = [
             [
-                KeyboardButton(cur_answers[0][UZ]),
+                KeyboardButton(cur_answers[0][UZ])
+            ],
+            [
                 KeyboardButton(cur_answers[1][UZ])
             ],
         ]
