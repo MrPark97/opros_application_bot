@@ -334,11 +334,13 @@ def questionnaire_7(update: Update, _: CallbackContext) -> int:
         keyboard = [
             [
                 KeyboardButton(cur_answers[0][RU]),
-                KeyboardButton(cur_answers[1][RU]),
-                KeyboardButton(cur_answers[2][RU])
+                KeyboardButton(cur_answers[1][RU])
             ],
             [
-                KeyboardButton(cur_answers[3][RU]),
+                KeyboardButton(cur_answers[2][RU]),
+                KeyboardButton(cur_answers[3][RU])
+            ],
+            [
                 KeyboardButton(cur_answers[4][RU]),
                 KeyboardButton(cur_answers[5][RU])
             ],
@@ -350,11 +352,13 @@ def questionnaire_7(update: Update, _: CallbackContext) -> int:
         keyboard = [
             [
                 KeyboardButton(cur_answers[0][UZ]),
-                KeyboardButton(cur_answers[1][UZ]),
-                KeyboardButton(cur_answers[2][UZ])
+                KeyboardButton(cur_answers[1][UZ])
             ],
             [
-                KeyboardButton(cur_answers[3][UZ]),
+                KeyboardButton(cur_answers[2][UZ]),
+                KeyboardButton(cur_answers[3][UZ])
+            ],
+            [
                 KeyboardButton(cur_answers[4][UZ]),
                 KeyboardButton(cur_answers[5][UZ])
             ],
@@ -412,6 +416,11 @@ def get_phone_number(update: Update, _: CallbackContext) -> int:
     question_text = ""
     user = update.message.from_user
     cur_language = language.get_language_by_user(user.id)[0]
+
+    cur_answers = answers.get_answers_by_question(8)
+
+    if update.message.text == cur_answers[1][RU] or update.message.text == cur_answers[1][UZ]:
+        return PHONE_NUMBER
 
     if cur_language == RU:
         keyboard = [
