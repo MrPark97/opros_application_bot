@@ -1,5 +1,8 @@
 import psycopg2
 import config
+import os
+
+DATABASE_URL = os.environ['DATABASE_URL']
 
 
 def get_answers_by_question(question_id):
@@ -7,8 +10,11 @@ def get_answers_by_question(question_id):
 
     conn = None
     try:
-        params = config.db_config()
-        conn = psycopg2.connect(**params)
+        if DATABASE_URL is not None:
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        else:
+            params = config.db_config()
+            conn = psycopg2.connect(**params)
         cur = conn.cursor()
 
         query = "SELECT * from answers WHERE answer_question = %s"

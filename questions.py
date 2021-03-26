@@ -1,5 +1,8 @@
 import psycopg2
 import config
+import os
+
+DATABASE_URL = os.environ['DATABASE_URL']
 
 
 def get_all_questions():
@@ -7,8 +10,11 @@ def get_all_questions():
 
     conn = None
     try:
-        params = config.db_config()
-        conn = psycopg2.connect(**params)
+        if DATABASE_URL is not None:
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        else:
+            params = config.db_config()
+            conn = psycopg2.connect(**params)
         cur = conn.cursor()
 
         query = "SELECT * from questions"
@@ -31,8 +37,11 @@ def get_question_by_id(question_id):
 
     conn = None
     try:
-        params = config.db_config()
-        conn = psycopg2.connect(**params)
+        if DATABASE_URL is not None:
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        else:
+            params = config.db_config()
+            conn = psycopg2.connect(**params)
         cur = conn.cursor()
 
         query = "SELECT * from questions WHERE question_id = %s"

@@ -1,5 +1,8 @@
 import psycopg2
 import config
+import os
+
+DATABASE_URL = os.environ['DATABASE_URL']
 
 
 def update_language(user_id, language_selected):
@@ -8,8 +11,11 @@ def update_language(user_id, language_selected):
     conn = None
     updated_rows = 0
     try:
-        params = config.db_config()
-        conn = psycopg2.connect(**params)
+        if DATABASE_URL is not None:
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        else:
+            params = config.db_config()
+            conn = psycopg2.connect(**params)
         cur = conn.cursor()
 
         query = """UPDATE language
@@ -37,8 +43,11 @@ def insert_language(user_id, language_selected):
 
     conn = None
     try:
-        params = config.db_config()
-        conn = psycopg2.connect(**params)
+        if DATABASE_URL is not None:
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        else:
+            params = config.db_config()
+            conn = psycopg2.connect(**params)
         cur = conn.cursor()
 
         query = """INSERT INTO language(language_user, language_selected)
@@ -63,8 +72,11 @@ def get_language_by_user(user_id):
 
     conn = None
     try:
-        params = config.db_config()
-        conn = psycopg2.connect(**params)
+        if DATABASE_URL is not None:
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        else:
+            params = config.db_config()
+            conn = psycopg2.connect(**params)
         cur = conn.cursor()
 
         query = "SELECT language_selected from language WHERE language_user = %s"
