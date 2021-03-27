@@ -59,3 +59,30 @@ def get_result_by_answer(answer_id):
             conn.close()
 
     return rows[0]
+
+
+def get_unique_respondents_count():
+    """get number of unique respondents"""
+
+    conn = None
+    try:
+        if DATABASE_URL is not None:
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        else:
+            params = config.db_config()
+            conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+
+        query = "SELECT COUNT(DISTINCT result_user) from results"
+        cur.execute(query)
+
+        rows = cur.fetchall()
+
+        cur.close()
+    except(Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+    return rows[0]
