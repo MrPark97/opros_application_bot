@@ -574,7 +574,8 @@ def finish(update: Update, _: CallbackContext) -> int:
     if update.message.contact is not None:
         phone_numbers.insert_phone_number(user.id, update.message.contact.phone_number)
     elif update.message.text is not None:
-        phone_numbers.insert_phone_number(user.id, update.message.text)
+        if update.message.text != "❌ Bekor qilish" and update.message.text != "❌ Отменить":
+            phone_numbers.insert_phone_number(user.id, update.message.text)
 
     if cur_language == RU:
         question_text = FINISH_MESSAGE_RU
