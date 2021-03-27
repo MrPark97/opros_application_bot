@@ -620,7 +620,7 @@ def statistics(update: Update, _: CallbackContext) -> None:
             for answer in all_answers:
                 result_string += (answer[1]+": " + str(results.get_result_by_answer(answer[0])[0]) + "\n")
 
-            result_string += "\n\n\n"
+            result_string += "\n\n"
 
         result_string += ("<b>Количество уникальных респондентов: " +
                           str(results.get_unique_respondents_count()[0]) + "</b>\n")
